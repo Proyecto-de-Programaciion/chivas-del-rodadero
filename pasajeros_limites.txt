@@ -1,9 +1,0 @@
-chiva;pasajeros
-Guacherna;0
-Guacherna;20
-Guacherna;21
-Guacherna;-1
-Guacherna;x
-Guacherna
-Acordeón;5
-
