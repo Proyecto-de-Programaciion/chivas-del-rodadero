@@ -2,14 +2,9 @@ from os import system
 
 from business_logic import (
     buscar_chiva,
-    cargar_chivas,
-    cargar_pasajeros,
     crear_chiva,
-    extremos_ocupacion,
     generar_informe,
-    porcentaje,
     simular_dias,
-    clasificar_nivel,
     validar_pasajeros,
 )
 
@@ -104,99 +99,13 @@ def menu_simular(lista_chivas):
     else:
         print(error)
 
-
 def menu_informe(lista_chivas):
     print("\n--- Informe de chiva ---")
     chiva = pedir_chiva(lista_chivas)
     if chiva is None:
         return
 
-    info = generar_informe(chiva)
-    if info["dias"] == 0:
-        print(f"La chiva {info['nombre']} no tiene días registrados.")
-        return
-    
-    print(f"Último día registrado: {info['ultimo_dia']}")
-    niveles = info["niveles"]
-    print(f"Chiva: {info['nombre']}")
-    print(f"Puestos: {info['puestos']}")
-    print(f"Días registrados: {info['dias']}")
-    print(f"Pasajeros totales: {info['total']}")
-    print(f"Promedio de pasajeros por día: {info['promedio']}")
-    print(f"Porcentaje de ocupación: {info['porcentaje']}%")
-    print(f"Desviación estándar: {info['desviacion']}")
-    print(f"Día con más pasajeros: {info['fecha_max']}")
-    print(f"Día con menos pasajeros: {info['fecha_min']}")
-    print(f"Días en ocupación baja: {niveles['baja']}")
-    print(f"Días en ocupación regular: {niveles['regular']}")
-    print(f"Días en ocupación buena: {niveles['buena']}")
-    print(f"Días en ocupación alta: {niveles['alta']}")
-
-    if info["racha_longitud"] == 0:
-        print("No tuvo ningún día en ocupación baja.")
-    else:
-        print(
-            f"Racha más larga en ocupación baja: {info['racha_longitud']} días, "
-            f"empieza el {info['racha_inicio']}"
-        )
-
-    if info["faltan"] == 0:
-        print("El registro está al día.")
-    else:
-        print(f"Días sin registrar: {info['faltan']}")
-
-
-def menu_extremos(lista_chivas):
-    print("\n--- Porcentaje de ocupación más alto y más bajo ---")
-    try:
-        mejor, peor = extremos_ocupacion(lista_chivas)
-    except ValueError as error:
-        print(error)
-        return
-
-    print(
-        f"Mayor ocupación: {mejor.nombre}, "
-        f"{round(porcentaje(mejor), 2)} %"
-    )
-    print(
-        f"Menor ocupación: {peor.nombre}, "
-        f"{round(porcentaje(peor), 2)} %"
-    )
-
-
-def menu_cargar(lista_chivas, nombres):
-    print("\n--- Cargar desde archivos ---")
-    if len(lista_chivas) > 0:
-        print("La carga solo se hace con el programa sin chivas.")
-        return
-
-    ruta_chivas = input("Ruta del archivo de chivas: ").strip().strip('"')
-    try:
-        cargadas, descartadas = cargar_chivas(ruta_chivas, lista_chivas, nombres)
-    except FileNotFoundError:
-        print("Error: el archivo de chivas no existe.")
-        return
-    except OSError:
-        print("Error: el archivo de chivas no se puede abrir.")
-        return
-
-    for numero, causa in descartadas:
-        print(f"Línea {numero} descartada: {causa}.")
-    print(f"Chivas cargadas: {cargadas}")
-
-    ruta_pasajeros = input("Ruta del archivo de pasajeros: ").strip().strip('"')
-    try:
-        cargados, descartadas = cargar_pasajeros(ruta_pasajeros, lista_chivas)
-    except FileNotFoundError:
-        print("Error: el archivo de pasajeros no existe.")
-        return
-    except OSError:
-        print("Error: el archivo de pasajeros no se puede abrir.")
-        return
-
-    for numero, causa in descartadas:
-        print(f"Línea {numero} descartada: {causa}.")
-    print(f"Días cargados: {cargados}")
+    print(generar_informe(chiva))
 
 
 def main():
@@ -212,9 +121,7 @@ def main():
         print("2. Registrar pasajeros del día siguiente")
         print("3. Simular días")
         print("4. Informe de chiva")
-        print("5. Chiva con mayor y menor ocupación")
-        print("6. Cargar chivas y pasajeros desde archivos")
-        print("7. Salir")
+        print("5. Salir")
         opcion = input("Elige una opción: ").strip()
 
         if opcion == "1":
@@ -223,13 +130,9 @@ def main():
             menu_registrar(lista_chivas)
         elif opcion == "3":
             menu_simular(lista_chivas)
-        elif opcion == "4":
+        elif opcion=="4":
             menu_informe(lista_chivas)
         elif opcion == "5":
-            menu_extremos(lista_chivas)
-        elif opcion == "6":
-            menu_cargar(lista_chivas, nombres)
-        elif opcion == "7":
             print("Vaya loco")
             break
         else:
@@ -240,5 +143,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
