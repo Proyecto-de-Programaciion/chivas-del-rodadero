@@ -107,6 +107,33 @@ def generar_informe(chiva):
         diferencia = pasajeros - promedio
         suma_cuadrados = suma_cuadrados + diferencia * diferencia
     desviacion = (suma_cuadrados / dias_registrados) ** 0.5
+    fecha_mayor, pasajeros_mayor = chiva.dias[0]
+    fecha_menor, pasajeros_menor = chiva.dias[0]
+ 
+    for fecha, pasajeros in chiva.dias:
+        if pasajeros > pasajeros_mayor:
+            fecha_mayor = fecha
+            pasajeros_mayor = pasajeros
+ 
+        if pasajeros < pasajeros_menor:
+            fecha_menor = fecha
+            pasajeros_menor = pasajeros
+    baja = 0
+    regular = 0
+    buena = 0
+    alta = 0
+
+    for fecha, pasajeros in chiva.dias:
+        ocupacion = pasajeros / chiva.numero_de_puestos * 100
+ 
+        if ocupacion < 45:
+            baja = baja + 1
+        elif ocupacion < 70:
+            regular = regular + 1
+        elif ocupacion < 90:
+            buena = buena + 1
+        else:
+            alta = alta + 1
 
     informe = (
         f"Chiva: {chiva.nombre}\n"
@@ -115,6 +142,12 @@ def generar_informe(chiva):
         f"Pasajeros totales: {total_pasajeros}\n"
         f"Promedio de pasajeros por día: {round(promedio, 2)}\n"
         f"Porcentaje de ocupación: {round(porcentaje, 2)}%\n"
-        f"Desviación estándar: {round(desviacion, 2)}"
+        f"Desviación estándar: {round(desviacion, 2)}\n"
+        f"Día de más pasajeros: {fecha_mayor}\n"
+        f"Día de menos pasajeros: {fecha_menor}\n"
+        f"Días en ocupación baja: {baja}\n"
+        f"Días en ocupación regular: {regular}\n"
+        f"Días en ocupación buena: {buena}\n"        
+        f"Días en ocupación alta: {alta}\n"
     )
     return informe
