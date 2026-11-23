@@ -1,0 +1,23 @@
+caso;descripcion;archivo_chivas;archivo_pasajeros;orden;salida_esperada
+CV-01;Carga correcta de chivas y pasajeros;chivas_base.csv;pasajeros_limites.csv;1;Chivas cargadas: 4
+CV-01;Carga correcta de chivas y pasajeros;chivas_base.csv;pasajeros_limites.csv;2;Línea 4 descartada: los pasajeros van de 0 a 20.
+CV-01;Carga correcta de chivas y pasajeros;chivas_base.csv;pasajeros_limites.csv;3;Línea 5 descartada: los pasajeros van de 0 a 20.
+CV-01;Carga correcta de chivas y pasajeros;chivas_base.csv;pasajeros_limites.csv;4;Línea 6 descartada: los pasajeros deben ser un número entero.
+CV-01;Carga correcta de chivas y pasajeros;chivas_base.csv;pasajeros_limites.csv;5;Línea 7 descartada: no tiene dos campos.
+CV-01;Carga correcta de chivas y pasajeros;chivas_base.csv;pasajeros_limites.csv;6;Línea 8 descartada: no hay una chiva llamada Acordeón.
+CV-01;Carga correcta de chivas y pasajeros;chivas_base.csv;pasajeros_limites.csv;7;Días cargados: 2
+CV-02;Chivas con errores en cada línea;chivas_errores.csv;chivas_vacia.csv;1;Línea 4 descartada: la chiva debe tener al menos un puesto.
+CV-02;Chivas con errores en cada línea;chivas_errores.csv;chivas_vacia.csv;2;Línea 5 descartada: no tiene cinco campos.
+CV-02;Chivas con errores en cada línea;chivas_errores.csv;chivas_vacia.csv;3;Línea 6 descartada: los puestos deben ser un número entero.
+CV-02;Chivas con errores en cada línea;chivas_errores.csv;chivas_vacia.csv;4;Línea 7 descartada: ya existe una chiva con ese nombre.
+CV-02;Chivas con errores en cada línea;chivas_errores.csv;chivas_vacia.csv;5;Línea 8 descartada: la fecha no es válida.
+CV-02;Chivas con errores en cada línea;chivas_errores.csv;chivas_vacia.csv;6;Chivas cargadas: 2
+CV-02;Chivas con errores en cada línea;chivas_errores.csv;chivas_vacia.csv;7;Días cargados: 0
+CV-03;Archivo de chivas vacío (solo encabezado);chivas_vacia.csv;chivas_vacia.csv;1;Chivas cargadas: 0
+CV-03;Archivo de chivas vacío (solo encabezado);chivas_vacia.csv;chivas_vacia.csv;2;Días cargados: 0
+CV-04;Espacios alrededor de los campos y línea vacía;chivas_formato.csv;chivas_vacia.csv;1;Chivas cargadas: 2
+CV-04;Espacios alrededor de los campos y línea vacía;chivas_formato.csv;chivas_vacia.csv;2;Días cargados: 0
+CV-06;Ruta de chivas que no existe;no_existe.csv;-;1;Error: el archivo de chivas no existe.
+CV-07;Ruta de pasajeros que no existe;chivas_base.csv;no_existe.csv;1;Chivas cargadas: 4
+CV-07;Ruta de pasajeros que no existe;chivas_base.csv;no_existe.csv;2;Error: el archivo de pasajeros no existe.
+CV-05;Segundo intento de cargar con chivas ya cargadas;chivas_base.csv;chivas_vacia.csv;1;La carga solo se hace con el programa sin chivas.
