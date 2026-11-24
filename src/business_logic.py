@@ -23,8 +23,7 @@ class Chiva:
                     mes = 1
                     año = año + 1
         return date(año, mes, dia)
-    
-    
+
     def registrar_dia(self, pasajeros):
         self.dias.append((self.fecha_siguiente(), pasajeros))
 
@@ -90,31 +89,283 @@ def simular_dias(chiva, dias, minimo, maximo):
         chiva.registrar_dia(random.randint(minimo, maximo))
     return None
 
+
+def clasificar_nivel(pasajeros, puestos):
+    if puestos == 0:
+        return "baja"
+    porcentaje = (pasajeros * 100) / puestos
+    if porcentaje < 45:
+        return "baja"
+    if porcentaje < 70:
+        return "regular"
+    if porcentaje < 90:
+        return "buena"
+    return "alta"
+
+
 def generar_informe(chiva):
-    if len(chiva.dias) == 0:
-        return f"La chiva {chiva.nombre} no tiene días registrados."
+    dias = len(chiva.dias)
 
-    total_pasajeros = 0
-    for fecha, pasajeros in chiva.dias:
-        total_pasajeros = total_pasajeros + pasajeros
+    if dias == 0:
+        return {
+            "nombre": chiva.nombre,
+            "puestos": chiva.numero_de_puestos,
+            "dias": 0,
+        }
 
-    dias_registrados = len(chiva.dias)
-    promedio = total_pasajeros / dias_registrados
-    porcentaje = promedio / chiva.numero_de_puestos * 100
+    fechas = []
+    pasajeros = []
+    for fecha, p in chiva.dias:
+        fechas.append(fecha)
+        pasajeros.append(p)
+
+    total = 0
+    for p in pasajeros:
+        total = total + p
+
+    promedio = total / dias
+    porcentaje = round((promedio / chiva.numero_de_puestos) * 100, 2)
 
     suma_cuadrados = 0
-    for fecha, pasajeros in chiva.dias:
-        diferencia = pasajeros - promedio
+    for p in pasajeros:
+        diferencia = p - promedio
         suma_cuadrados = suma_cuadrados + diferencia * diferencia
-    desviacion = (suma_cuadrados / dias_registrados) ** 0.5
+    desviacion = round((suma_cuadrados / dias) ** 0.5, 2)
 
-    informe = (
-        f"Chiva: {chiva.nombre}\n"
-        f"Puestos: {chiva.numero_de_puestos}\n"
-        f"Días registrados: {dias_registrados}\n"
-        f"Pasajeros totales: {total_pasajeros}\n"
-        f"Promedio de pasajeros por día: {round(promedio, 2)}\n"
-        f"Porcentaje de ocupación: {round(porcentaje, 2)}%\n"
-        f"Desviación estándar: {round(desviacion, 2)}"
-    )
-    return informe
+    max_pasajeros = pasajeros[0]
+    min_pasajeros = pasajeros[0]
+    pos_max = 0
+    pos_min = 0
+    for i in range(1, dias):
+        if pasajeros[i] > max_pasajeros:
+            max_pasajeros = pasajeros[i]
+            pos_max = i
+        if pasajeros[i] < min_pasajeros:
+            min_pasajeros = pasajeros[i]
+            pos_min = i
+
+    fecha_max = fechas[pos_max]
+    fecha_min = fechas[pos_min]
+
+    cont_baja = 0
+    cont_regular = 0
+    cont_buena = 0
+    cont_alta = 0
+    for p in pasajeros:
+        nivel = clasificar_nivel(p, chiva.numero_de_puestos)
+        if nivel == "baja":
+            cont_baja = cont_baja + 1
+        elif nivel == "regular":
+            cont_regular = cont_regular + 1
+        elif nivel == "buena":
+            cont_buena = cont_buena + 1
+        else:
+            cont_alta = cont_alta + 1
+
+    niveles = {
+        "baja": cont_baja,
+        "regular": cont_regular,
+        "buena": cont_buena,
+        "alta": cont_alta,
+    }
+
+    racha_longitud = 0
+    racha_inicio = None
+    actual = 0
+    inicio_actual = None
+
+    for i in range(dias):
+        if clasificar_nivel(pasajeros[i], chiva.numero_de_puestos) == "baja":
+            if actual == 0:
+                inicio_actual = fechas[i]
+            actual = actual + 1
+            if actual > racha_longitud:
+                racha_longitud = actual
+                racha_inicio = inicio_actual
+        else:
+            actual = 0
+            inicio_actual = None
+
+    hoy = date.today()
+    ultimo_dia = fechas[dias - 1]
+    faltan = 0
+    primer_faltante = None
+    ultimo_faltante = None
+
+    siguiente = ultimo_dia
+    while True:
+        año = siguiente.year
+        mes = siguiente.month
+        dia = siguiente.day + 1
+        try:
+            candidato = date(año, mes, dia)
+        except ValueError:
+            dia = 1
+            mes = mes + 1
+            if mes > 12:
+                mes = 1
+                año = año + 1
+            candidato = date(año, mes, dia)
+
+        if candidato >= hoy:
+            break
+
+        faltan = faltan + 1
+        if primer_faltante is None:
+            primer_faltante = candidato
+        ultimo_faltante = candidato
+        siguiente = candidato
+
+    return {
+        "nombre": chiva.nombre,
+        "puestos": chiva.numero_de_puestos,
+        "dias": dias,
+        "total": total,
+        "promedio": round(promedio, 2),
+        "porcentaje": porcentaje,
+        "desviacion": round(desviacion, 2),
+        "fecha_max": fecha_max,
+        "fecha_min": fecha_min,
+        "niveles": niveles,
+        "racha_longitud": racha_longitud,
+        "racha_inicio": racha_inicio,
+        "faltan": faltan,
+        "primer_faltante": primer_faltante,
+        "ultimo_faltante": ultimo_faltante,
+        "ultimo_dia": ultimo_dia,
+    }
+
+
+def convertir_entero(texto):
+    if texto is None:
+        return None
+    try:
+        return int(texto)
+    except ValueError:
+        return None
+
+
+def porcentaje(chiva):
+    total = 0
+    for fecha, pasajeros in chiva.dias:
+        total = total + pasajeros
+    return (total / (len(chiva.dias) * chiva.numero_de_puestos)) * 100
+
+
+def extremos_ocupacion(lista_chivas):
+    ocupaciones = []                                  
+    for chiva in lista_chivas:                        
+        if len(chiva.dias) > 0:
+            total = 0
+            for fecha, pasajeros in chiva.dias:       
+                total = total + pasajeros
+            porcentaje_ocupacion = (total / (len(chiva.dias) * chiva.numero_de_puestos)) * 100
+            ocupaciones.append([chiva, porcentaje_ocupacion]) 
+    if len(ocupaciones) == 0:
+        raise ValueError("Ninguna chiva tiene días registrados.")
+
+    mejor = ocupaciones[0]
+    peor = ocupaciones[0]
+    for fila in ocupaciones:
+        if fila[1] > mejor[1]:
+            mejor = fila
+        if fila[1] < peor[1]:
+            peor = fila
+    return mejor[0], peor[0]
+
+def cargar_chivas(ruta, lista_chivas, nombres):
+    if len(lista_chivas) > 0:
+        raise RuntimeError("La carga solo se hace con el programa sin chivas.")
+
+    archivo = open(ruta, encoding="utf-8")
+    cargadas = 0
+    descartadas = []
+    numero = 0
+    for linea in archivo:
+        numero = numero + 1
+        if numero > 1 and linea.strip() != "":
+            try:
+                campos = separar_campos(linea)
+                if len(campos) != 5:
+                    raise ValueError("no tiene cinco campos")
+
+                nombre = campos[0]
+                puestos = convertir_entero(campos[1])
+                año = convertir_entero(campos[2])
+                mes = convertir_entero(campos[3])
+                dia = convertir_entero(campos[4])
+
+                if nombre == "":
+                    raise ValueError("el nombre no puede estar vacío")
+                if nombre in nombres:
+                    raise ValueError("ya existe una chiva con ese nombre")
+                if puestos is None:
+                    raise ValueError("los puestos deben ser un número entero")
+                if puestos < 1:
+                    raise ValueError("la chiva debe tener al menos un puesto")
+                if año is None or mes is None or dia is None:
+                    raise ValueError("la fecha no es válida")
+                try:
+                    fecha = date(año, mes, dia)
+                except ValueError:
+                    raise ValueError("la fecha no es válida")
+
+                lista_chivas.append(Chiva(nombre, puestos, fecha))
+                nombres.add(nombre)
+                cargadas = cargadas + 1
+            except ValueError as error:
+                descartadas.append((numero, error))
+    archivo.close()
+    return cargadas, descartadas
+
+
+def separar_campos(linea):
+    campos = []
+    actual = ""
+    for letra in linea:
+        if letra == ";":
+            campos.append(actual.strip())
+            actual = ""
+        else:
+            actual = actual + letra
+    campos.append(actual.strip())
+    return campos
+
+
+def cargar_linea_pasajeros(linea, lista_chivas):
+    campos = separar_campos(linea)
+    if len(campos) != 2:
+        raise ValueError("no tiene dos campos")
+
+    nombre = campos[0]
+    texto_pasajeros = campos[1]
+
+    chiva = buscar_chiva(lista_chivas, nombre)
+    if chiva is None:
+        raise ValueError(f"no hay una chiva llamada {nombre}")
+
+    pasajeros = convertir_entero(texto_pasajeros)
+    if pasajeros is None:
+        raise ValueError("los pasajeros deben ser un número entero")
+
+    if pasajeros < 0 or pasajeros > chiva.numero_de_puestos:
+        raise ValueError(f"los pasajeros van de 0 a {chiva.numero_de_puestos}")
+
+    chiva.registrar_dia(pasajeros)
+
+
+def cargar_pasajeros(ruta, lista_chivas):
+    archivo = open(ruta, encoding="utf-8")
+    cargados = 0
+    descartadas = []
+    numero = 0
+    for linea in archivo:
+        numero = numero + 1
+        if numero > 1 and linea.strip() != "":
+            try:
+                cargar_linea_pasajeros(linea, lista_chivas)
+                cargados = cargados + 1
+            except ValueError as error:
+                descartadas.append((numero, error))
+    archivo.close()
+    return cargados, descartadas
