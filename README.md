@@ -1,3 +1,24 @@
+## ðŸŽ¬ DemostraciÃ³n
+
+> **â–¶ Ver video final completo (editado y subtitulado):** [Haz clic aquÃ­ para abrirlo](https://github.com/Proyecto-de-Programaciion/chivas-del-rodadero/releases/download/video-final-v1/resultado_final.mp4)
+
+| Video | DescripciÃ³n | Ver |
+|---|---|---|
+| ðŸŽ¥ **Resultado final** | 3 clips unidos, silencios recortados, transiciones, color, audio normalizado y subtÃ­tulos quemados | [â–¶ Abrir video](https://github.com/Proyecto-de-Programaciion/chivas-del-rodadero/releases/download/video-final-v1/resultado_final.mp4) |
+| Descarga directa | Archivo MP4 alojado en GitHub Releases | [â¬‡ Descargar](https://github.com/Proyecto-de-Programaciion/chivas-del-rodadero/releases/download/video-final-v1/resultado_final.mp4) |
+| Copia en el repositorio | ideos/resultado_final.mp4 | [â–¶ Ver en repo](videos/resultado_final.mp4) |
+
+<details>
+<summary>Proceso de ediciÃ³n aplicado</summary>
+
+1. **Recorte de silencios:** pausas > 1.2 s por debajo de -35 dB (margen natural de 0.15 s).
+2. **UniÃ³n:** clips 1 â†’ 2 â†’ 3 con xfade=fade:d=0.4 y crossfade=d=0.4.
+3. **Imagen y audio:** 1920Ã—1080 @ 30 fps, eq=contrast=1.05:saturation=1.1, loudnorm=I=-16.
+4. **SubtÃ­tulos:** transcripciÃ³n con faster-whisper (modelo ase, int8, espaÃ±ol), frases de mÃ¡ximo 8 palabras, quemados con subtitles.
+5. **Render:** libx264 -preset veryfast -crf 23, AAC 192 kbps, +faststart. DuraciÃ³n: 10:59.
+
+</details>
+
 <div align="center">
 
 # 🚌 Chivas del Rodadero
@@ -30,8 +51,8 @@
 
 | Video | Descripción | Ver |
 |---|---|---|
-| Parte 1 | Recorrido general del programa y menú principal | [▶ Abrir](<videos/WhatsApp Video 2026-11-22 at 6.09.48 PM.mp4>) |
-| Parte 2 | Informes, ocupación y carga de archivos | [▶ Abrir](<videos/WhatsApp Video 2026-11-22 at 6.29.59 PM.mp4>) |
+| Parte 1 | Recorrido general del programa y menú principal | [▶ Abrir](<videos/resultado_final.mp4 2026-11-22 at 6.09.48 PM.mp4>) |
+| Parte 2 | Informes, ocupación y carga de archivos | [▶ Abrir](<videos/resultado_final.mp4 2026-11-22 at 6.29.59 PM.mp4>) |
 
 ---
 
