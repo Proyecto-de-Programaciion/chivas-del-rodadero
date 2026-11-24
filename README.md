@@ -1,12 +1,18 @@
 ## ðŸŽ¬ DemostraciÃ³n
 
-> **â–¶ Ver video final completo (editado y subtitulado):** [Haz clic aquÃ­ para abrirlo](https://github.com/Proyecto-de-Programaciion/chivas-del-rodadero/releases/download/video-final-v1/resultado_final.mp4)
+<div align="center">
 
-| Video | DescripciÃ³n | Ver |
+[![Chivas del Rodadero - Video final](https://img.youtube.com/vi/2M111OKoqQo/maxresdefault.jpg)](https://www.youtube.com/watch?v=2M111OKoqQo)
+
+### [â–¶ Ver video final en YouTube](https://www.youtube.com/watch?v=2M111OKoqQo)
+
+</div>
+
+| Ver | DescripciÃ³n | Enlace |
 |---|---|---|
-| ðŸŽ¥ **Resultado final** | 3 clips unidos, silencios recortados, transiciones, color, audio normalizado y subtÃ­tulos quemados | [â–¶ Abrir video](https://github.com/Proyecto-de-Programaciion/chivas-del-rodadero/releases/download/video-final-v1/resultado_final.mp4) |
-| Descarga directa | Archivo MP4 alojado en GitHub Releases | [â¬‡ Descargar](https://github.com/Proyecto-de-Programaciion/chivas-del-rodadero/releases/download/video-final-v1/resultado_final.mp4) |
-| Copia en el repositorio | ideos/resultado_final.mp4 | [â–¶ Ver en repo](videos/resultado_final.mp4) |
+| ðŸŽ¥ **YouTube** | Video editado, unido, corregido y subtitulado | [â–¶ Reproducir](https://www.youtube.com/watch?v=2M111OKoqQo) |
+| â¬‡ **Descarga directa** | Archivo MP4 (GitHub Releases) | [â¬‡ Descargar resultado_final.mp4](https://github.com/Proyecto-de-Programaciion/chivas-del-rodadero/releases/download/video-final-v1/resultado_final.mp4) |
+| ðŸ“ **Copia en el repo** | ideos/resultado_final.mp4 | [â–¶ Ver en GitHub](videos/resultado_final.mp4) |
 
 <details>
 <summary>Proceso de ediciÃ³n aplicado</summary>
@@ -18,22 +24,6 @@
 5. **Render:** libx264 -preset veryfast -crf 23, AAC 192 kbps, +faststart. DuraciÃ³n: 10:59.
 
 </details>
-
-<div align="center">
-
-# 🚌 Chivas del Rodadero
-
-### Control diario de pasajeros e indicadores de ocupación
-
-**Fundamentos de Programación · Universidad del Magdalena · 2026-II · Alternativa F**
-
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-[![Estado: entregado](https://img.shields.io/badge/estado-entregado-2ea44f)](https://github.com/Proyecto-de-Programaciion/chivas-del-rodadero)
-[![Universidad del Magdalena](https://img.shields.io/badge/Unimagdalena-Ingeniería-0768a9)](https://www.unimagdalena.edu.co/)
-[![Entrega: 23--11--2026](https://img.shields.io/badge/entrega-23--11--2026-orange)](https://github.com/Proyecto-de-Programaciion/chivas-del-rodadero)
-
-</div>
-
 ---
 
 ## 📑 Contenido
